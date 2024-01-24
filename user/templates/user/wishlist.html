@@ -1,0 +1,40 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% load humanize %}
+{% block head_title %}My Wish List{% endblock %}
+{% block content %} 
+<div class="container">
+  <div class="login d-flex align-items-center">
+    <div class="col-12 col-md-12 col-lg-12 <div class="col-12 mx-auto">
+      <h1 class="h3">My Wishlist</h1>
+      <div>Manage your Wishlist</div>
+      <hr />
+      {% if user_wishlist %}
+      {% for i in user_wishlist  %}
+      <div class="card mb-3 rounded-0">
+        <div class="row g-0">
+          <div class="col-md-2">
+              <img class="img-fluid d-block p-2" width="135px" src="{{ i.product.image.url }}"
+                alt="{{ image.image.alt_text }}" />
+          </div>
+          <div class="col-md-10">
+            <div class="card-body">
+              <h5 class="card-title">{{i.product.title}}</h5>
+              <p class="card-text">{{i.product.description}}</p>
+              <p class="card-text"><small class="text-muted">Price : £ {{i.product.price}}</small></p>
+              <p class="card-text"><small class="text-muted">Color : {{i.product.color}}</small></p>
+              <p class="card-text"><small class="text-muted">Category : {{i.product.category}}</small></p>
+              <p class="card-text"><small class="text-muted">Size : {{i.product.size}}</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p class="card-text">No products have been added to your wishlist yet</p>
+      {% endif %}
+    </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,275 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Fashion Park{% endblock %}</title>
+  <style>
+    .colorful-text span {
+      display: inline-block;
+      padding: 4px;
+      margin: -7px;
+    }
+    .colorful-text span:nth-child(1) {
+      color: #FF5730;
+    }
+    .colorful-text span:nth-child(2) {
+      color: #33FF57;
+    }
+    .colorful-text span:nth-child(3) {
+      color: #5733FF;
+    }
+    .colorful-text span:nth-child(4) {
+      color: #FF33A1;
+    }
+    .colorful-text span:nth-child(5) {
+      color: #33A1FF;
+    }
+    .colorful-text span:nth-child(6) {
+      color: #A1FA35;
+    }
+    .colorful-text span:nth-child(7) {
+      color: #FF3362;
+    }
+    .colorful-text span:nth-child(15) {
+      color: #33FF57;
+    }
+    .colorful-text span:nth-child(16) {
+      color: #33FF57;
+    }
+    .colorful-text span:nth-child(17) {
+      color: #33FF57;
+    }
+    .colorful-text span:nth-child(18) {
+      color: #33FF57;
+    }
+
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% block stylesheet %}{% endblock %}">
+</head>
+
+<body>
+  <header class="pb-3">
+    <nav class="navbar navbar-expand-md navbar-light bg-dark text-white border-bottom">
+      <div class="container-fluid px-md-4">
+        <div class="d-flex w-100 navbar-collapse">
+          <a class="navbar-brand d-flex-inline" href="/">
+            <div class="container">
+                <h4 class="colorful-text">
+                  <span>F</span>
+                  <span>a</span>
+                  <span>s</span>
+                  <span>h</span>
+                  <span>i</span>
+                  <span>o</span>
+                  <span>n</span>
+                  <span> </span>
+                  <span> </span>
+                  <span> </span>
+                  <span> </span>
+                  <span> </span>
+                  <span> </span>
+                  <span> </span>
+                  <span>P</span>
+                  <span>a</span>
+                  <span>r</span>
+                  <span>k</span>
+                </h4>
+              </div>
+          </a>
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item dropdown">
+              <a class="text-white nav-link dropdown-toggle d-none d-md-block fw500" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                All
+                
+              </a>
+              <ul class="dropdown-menu rounded-0 border-0" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/">All</a></li>
+                {% for c in categories %}
+                <li class="selected">
+                  <a class="dropdown-item" href="{% url 'category_wise_post' c.slug %}">{{ c.name }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex w-100 ">
+            <input class="form-control me-2" type="search" placeholder="Search products or FAQ" aria-label="Search">
+            <button class="text-white btn btn-outline-secondary" type="submit">Search</button>
+          </form>
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-list"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+              </svg>
+            </div>
+            <span class="text-white fs15 fw500">Shop</span>
+          </button>
+          <div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                  <a class="text-white nav-link dropdown-toggle text-reset" href="#" id="navbarDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="text-white text-white small text-muted"><span class="text-white">Hello,</span>
+                      {% if user.is_authenticated %}
+                      <b class="text-white">{{ user.first_name }} {{ user.last_name }}</b>
+                      {% else %}
+                      Login
+                      {% endif %}
+                    </div>
+                    <span class="fs15 fw500">Account &amp; Lists
+                    </span>
+                    </span>
+                  </a>
+                  <div class="dropdown-menu rounded-0" aria-labelledby="navbarDropdown">
+                    <div class="card border-0">
+                      <div class="card-body">
+                        <h6 class="card-title">My Account</h6>
+                        <ul class="list-group list-group-flush dropdown-account-link">
+                          {% if user.is_authenticated %}
+                          <a href="{% url 'profile' %}" class="text-reset small list-group-item p-0 pb-1 border-0 dropdown-account-link">Your Account</a>
+                          <a href="{% url 'wishlist' %}" class="text-reset small list-group-item p-0 pb-1 border-0 dropdown-account-link">Wish List</a>
+                          <a href="{% url 'logout' %}" class="text-reset small list-group-item p-0 pb-1 border-0 dropdown-account-link">Logout</a>      
+                          {% else %}
+                          <a href="{% url 'login' %}" class="text-reset small list-group-item p-0 pb-1 border-0 dropdown-account-link">Login</a>
+                          {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          {% if user.is_authenticated %}
+          <a type="button" role="button" href="{% url 'basket' %}"
+            class="btn btn-outline-warning border-0 basket-btn">
+            {% with total_qty=user_purchases|length %}
+            <div id="basket-qty" class="basket-qty">
+              {% if total_qty > 0 %}
+              {{ total_qty }}
+              {% else %}
+              0
+              {% endif %}
+            </div>
+            {% endwith %}
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="text-white bi bi-cart3"
+                viewBox="0 0 16 16">
+                <path
+                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+              </svg>
+            </div>
+            <span class="text-white fs15 fw500">Basket</span>
+          </a>
+          {% endif %}
+        </div>
+        <div class="d-md-none d-lg-none d-xl-none">
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li><a class="dropdown-item" href="">All</a></li>
+              {% for c in categories %}
+              <li class="selected">
+                <a class="dropdown-item" href="{% url 'category_wise_post' c.slug %}">{{ c.name }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+            <h6 class="card-title">My Account</h6>
+              <ul class="list-group list-group-flush dropdown-account-link">
+                {% if user.is_authenticated %}
+                <a href="" class="dropdown-item">Your Account</a>
+                <a href="#" class="dropdown-item">Orders</a>
+                <a href="" class="dropdown-item">Logout</a>      
+                {% else %}
+                <a href="" class="dropdown-item">Login</a>
+                {% endif %}
+              </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="pt-0">
+    <div id="content">
+        {% block content %}
+
+        {% endblock content %}
+        {% block nav %}
+        {% endblock nav %}
+    </div>
+    {% block product %}
+
+    {% endblock product %}
+  </main>
+
+  <footer class="container py-5 footer">
+    <hr>
+    <div class="row pt-4">
+      <div class="col-12 col-md">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk"
+          viewBox="0 0 16 16">
+          <path
+            d="Fashion Park" />
+        </svg>
+        <h5>Fashion Park</h5>
+        <small class="d-block mb-3 text-muted">&copy; 2017-{% now "Y" %}</small>
+      </div>
+      <div class="col-6 col-md fs15">
+        <h5>Features</h5>
+        <ul class="list-unstyled">
+          <li><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Stuff for developers</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md fs15">
+        <h5>Resources</h5>
+        <ul class="list-unstyled">
+          <li><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md fs15">
+        <h5>Resources</h5>
+        <ul class="list-unstyled">
+          <li><a class="link-secondary text-decoration-none" href="#">Business</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Education</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Government</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Gaming</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>About</h5>
+        <ul class="list-unstyled">
+          <li><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+          <li><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>

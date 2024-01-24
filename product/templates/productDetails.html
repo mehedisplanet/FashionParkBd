@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% block stylesheet %}{% static 'css/store.css' %}{% endblock %}
+{% block title %}
+{% if product %}{{ product.title }}{% else %}Product{% endif %}
+{% endblock %}
+{% block content %}
+
+<div class="container">
+  <div class="row g-3">
+    <div class="col-md-5 ps-3 col-lg-5 order-md-last p-0 order-1">
+      <div class="d-grid gap-2">
+        <div class="d-flex d-flex-inline justify-content-between">
+          <div>
+            <span class="h3">£{{ product.price }}</span>
+            <p class="text-muted">includes tax</p>
+            <p class="h3">Color : {{ product.color }}</p>
+            <p class="h3">Size : {{ product.size }}</p>
+          </div>
+          <div>
+            <label for="select">Qty</label>
+            <select id="select" class="h6 store-select-dropdown">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+        </div>
+        <hr>
+        <a href="{% url 'purchase_product' product.id %}" type="button" id="add-button" value="{{product.id}}" class="btn btn-success fw500">Buy</a>
+        <a href="{% url 'wishlist_product' product.id %}" class="btn btn-light fw500" role="button" aria-disabled="true">Add to Wish List</a>
+      </div>
+    </div>
+    <div class="col-md-7 col-lg-7 p-0">
+      <div class="card mb-3 border-0">
+        <div class="row g-0">
+          <div class="col-md-12">
+            <div class="card-body p-1">
+              <h1 class="mb-0 h2 pe-4 pb-4">{{ product.title }}</h1>
+              <div class="bg-light">
+
+                <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ product.image.url }}"
+                  alt="{{ image.image.alt_text }}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if reviews %}
+<div class="card mt-4 m-2 bg-white rounded-md  px-10">
+  <h5 class="card-header py-5">Total Review: {{ reviews | length }}</h5>
+  <div class="card-body pb-2">
+    {% for c in reviews %}
+    <hr>
+      <div class="card mb-3 pb-2 pt-5">
+        <div class="card-body">
+          <div class="media">
+            <div class="media-body">
+              <h5 class="mt-0 text-lg font-bold">
+                  <span class="opacity-50">By</span> {{ c.name }}
+              </h5>            
+              <p>{{ c.body }}</p>
+              <p>{{ c.ratings }}</p>
+              <p>{{ c.created_on }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% if user.is_authenticated %}
+<div class="card mt-4 m-2 bg-white rounded-md p-5">
+  <div class="card-body">
+    <form method="POST" enctype="multipart/form-data">
+      <h1 class="mb-4 text-2xl font-bold">Add Review</h1>
+      {% csrf_token %}
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+        <input id="name" type="text" name="name" placeholder="Your name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+        <input id="email" type="email" name="email" placeholder="Your email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <div class="mb-4">
+        <label for="body" class="block text-gray-700 text-sm font-bold mb-2">Body</label>
+        <textarea id="body" name="body" placeholder="Your review" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+      </div>
+      <button type="submit" class="flex items-center justify-center w-full p-3 font-semibold tracki bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded">Submit</button>
+      {% endif %}
+    </form>
+  </div>
+</div>
+  {% endblock %}
